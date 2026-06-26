@@ -27,8 +27,7 @@ function createFallbackAvatar(name) {
   return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
 }
 
-function createDisplayEmailFromName(name) {
-  // Derived email keeps card data visually consistent for display.
+function createDisplayEmailFromName(name, uniqueId = "") {
   const localPart = name
     .toLowerCase()
     .replace(/[^a-z\s]/g, "")
@@ -36,7 +35,8 @@ function createDisplayEmailFromName(name) {
     .split(/\s+/)
     .join(".");
 
-  return `${localPart || "visitor"}@adventurepark.guests`;
+  const uniqueSuffix = uniqueId ? `.${uniqueId}` : "";
+  return `${localPart || "visitor"}${uniqueSuffix}@adventurepark.guests`;
 }
 
 function clearElement(element) {
@@ -314,7 +314,7 @@ async function loadData() {
     const enhancedUsers = users.map((user, index) => ({
       name: user.name,
       // Use a name-based display email so cards feel internally consistent.
-      email: createDisplayEmailFromName(user.name),
+      email: createDisplayEmailFromName(user.name, user.id),
       city: user.address.city,
       company: user.company.name,
       image: randomImages[index] || createFallbackAvatar(user.name)
