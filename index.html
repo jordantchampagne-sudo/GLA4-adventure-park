@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!--
+  Author: Student Submission
+  AI Declaration:
+  GitHub Copilot was used to help draft code, explain parts of the assignment by drawing parallels to PLC programming and robotics principles, and help fix errors and refine the code.
+  Technical background: PLC programming and robotics systems.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adventure Park Booking</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>Adventure Park Booking</h1>
+    <nav>
+      <ul class="nav-list">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="layout">
+    <section class="panel">
+      <h2>Ticket Registration</h2>
+      <form id="ticketForm" class="ticket-form">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" required />
+
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required />
+
+        <label for="tickets">Number of Tickets</label>
+        <input id="tickets" name="tickets" type="number" min="1" required />
+
+        <button type="submit">Book Tickets</button>
+      </form>
+      <p id="confirmationMessage" class="confirmation" aria-live="polite"></p>
+    </section>
+
+    <section class="panel">
+      <h2>Explore Visitors</h2>
+      <div class="search-wrap">
+        <label for="searchInput">Search by name</label>
+        <input id="searchInput" type="text" placeholder="Type a user name..." />
+      </div>
+
+      <div class="stats">
+        <p>Total Users: <span id="userCount">0</span></p>
+        <p>Total Posts: <span id="postCount">0</span></p>
+      </div>
+
+      <p id="loadingMessage" class="loading">Loading users and posts...</p>
+      <p id="errorMessage" class="error" aria-live="polite"></p>
+
+      <div id="userContainer" class="user-grid"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Latest Posts</h2>
+      <div id="postsContainer" class="posts-list"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; <span id="currentYear">0000</span> Adventure Park. All rights reserved.</p>
+  </footer>
+
+  <script src="js/api.js" defer></script>
+  <script src="js/users.js" defer></script>
+  <script src="js/booking.js" defer></script>
+</body>
+</html>
