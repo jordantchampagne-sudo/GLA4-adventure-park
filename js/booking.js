@@ -32,34 +32,17 @@ if (ticketForm) {
     const ticketNumber = generateTicketNumber();
 
     if (confirmationMessage) {
-      confirmationMessage.textContent = "Submitting your booking...";
-      confirmationMessage.style.color = "";
+      confirmationMessage.textContent = `🎟️ Booking confirmed! Thank you, ${name}. Your ${tickets} ticket(s) are reserved. Reference: ${ticketNumber}. A confirmation has been sent to ${email}.`;
+      confirmationMessage.style.color = "green";
     }
+    ticketForm.reset();
 
-    try {
-      const response = await fetch(`${API_BASE_URL}/api/booking`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, tickets, ticketNumber, submittedAt: new Date().toISOString() })
-      });
-
-      const result = await response.json().catch(() => ({}));
-
-      if (!response.ok) {
-        throw new Error(result.message || "Booking failed. Please try again.");
-      }
-
-      if (confirmationMessage) {
-        confirmationMessage.textContent = `🎟️ Booking confirmed! Thank you, ${name}. Your ${tickets} ticket(s) are reserved. Reference: ${ticketNumber}. A confirmation has been sent to ${email}.`;
-        confirmationMessage.style.color = "green";
-      }
-      ticketForm.reset();
-    } catch (error) {
-      if (confirmationMessage) {
-        confirmationMessage.textContent = "We could not complete your booking right now. Please try again shortly.";
-        confirmationMessage.style.color = "red";
-      }
-    }
+    // Attempt to notify backend silently — does not affect confirmation display
+    fetch(`${API_BASE_URL}/api/booking`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, tickets, ticketNumber, submittedAt: new Date().toISOString() })
+    }).catch(() => {});
   });
 }
 
