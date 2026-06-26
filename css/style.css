@@ -160,12 +160,16 @@ body {
 
 .confirmation {
   margin-top: 0.85rem;
+  line-height: 1.5;
+}
+
+.confirmation:not(:empty) {
   padding: 0.7rem 0.8rem;
   border-radius: 6px;
-  background: var(--colour-ok-bg);
-  color: var(--colour-ok-text);
+  background: var(--colour-surface);
+  border-left: 4px solid var(--colour-accent);
+  color: var(--colour-primary);
   font-weight: 600;
-  line-height: 1.5;
 }
 
 .search-wrap {
@@ -189,7 +193,7 @@ body {
   margin-bottom: 0.55rem;
 }
 
-.error {
+.error:not(:empty) {
   background: var(--colour-error-bg);
   color: var(--colour-error-text);
   border-radius: 6px;
