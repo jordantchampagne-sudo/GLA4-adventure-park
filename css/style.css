@@ -1,227 +1,329 @@
+/*
+  Styling Note:
+  This stylesheet is adapted from the author's prior portfolio design system
+  and tailored for the Adventure Park project requirements.
+*/
+
 :root {
-  --bg: #f3efe6;
-  --surface: #fffaf1;
-  --surface-2: #ffffff;
-  --ink: #182026;
-  --muted: #5b6975;
-  --accent: #ff7a00;
-  --accent-2: #0f766e;
-  --danger: #b42318;
-  --ok: #166534;
-  --shadow: 0 10px 30px rgba(24, 32, 38, 0.12);
+  --colour-primary: #2c3e50;
+  --colour-accent: #e67e22;
+  --colour-bg: #f5f5f5;
+  --colour-surface: #ffffff;
+  --colour-text: #333333;
+  --colour-muted: #5f6b77;
+  --colour-footer-bg: #1a252f;
+  --colour-footer-text: #cccccc;
+  --colour-ok-bg: #dff6e5;
+  --colour-ok-text: #155724;
+  --colour-error-bg: #fde2e2;
+  --colour-error-text: #721c24;
+  --radius: 8px;
+  --shadow-soft: 0 1px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lift: 0 6px 18px rgba(0, 0, 0, 0.12);
+  --font-main: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
-  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
-  color: var(--ink);
+  font-family: var(--font-main);
+  color: var(--colour-text);
   background:
-    radial-gradient(circle at 10% 10%, rgba(255, 122, 0, 0.18), transparent 34%),
-    radial-gradient(circle at 90% 20%, rgba(15, 118, 110, 0.2), transparent 30%),
-    var(--bg);
+    radial-gradient(circle at 12% 0%, rgba(230, 126, 34, 0.12), transparent 34%),
+    radial-gradient(circle at 88% 12%, rgba(44, 62, 80, 0.11), transparent 30%),
+    var(--colour-bg);
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .site-header {
-  padding: 1.2rem 1rem;
-  background: linear-gradient(120deg, #fff2db, #f7fff9);
-  border-bottom: 2px solid rgba(24, 32, 38, 0.08);
+  background: var(--colour-primary);
+  color: #ffffff;
+  padding: 1rem 1.5rem;
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
 }
 
 .site-header h1 {
-  margin: 0 0 0.6rem;
-  letter-spacing: 0.3px;
+  font-size: 1.6rem;
+  margin-bottom: 0.7rem;
+}
+
+.site-header h1,
+.site-header nav {
+  width: min(1100px, 100%);
+  margin-inline: auto;
 }
 
 .nav-list {
   list-style: none;
   display: flex;
-  gap: 1rem;
-  margin: 0;
-  padding: 0;
+  flex-wrap: wrap;
+  gap: 0.7rem;
 }
 
 .nav-list a {
+  background: var(--colour-accent);
+  color: #ffffff;
   text-decoration: none;
-  color: var(--ink);
-  font-weight: 700;
-  padding: 0.35rem 0.6rem;
-  border-radius: 0.5rem;
+  font-weight: 600;
+  padding: 0.5rem 1.75rem;
+  border: 2px solid transparent;
+  border-radius: 0.4em;
+  box-shadow: 0 2px 8px rgba(230, 126, 34, 0.22);
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
 .nav-list a:hover,
 .nav-list a.active {
-  background: var(--accent);
-  color: #fff;
+  background: #ffffff;
+  color: var(--colour-accent);
+  border-color: var(--colour-accent);
+  transform: translateY(-1px);
 }
 
 .layout {
   width: min(1100px, 94%);
-  margin: 1.5rem auto;
+  margin: 1.75rem auto;
   display: grid;
-  gap: 1rem;
+  gap: 1.2rem;
+  flex: 1;
 }
 
 .panel {
-  background: var(--surface);
-  border: 1px solid rgba(24, 32, 38, 0.08);
-  border-radius: 1rem;
-  padding: 1rem;
-  box-shadow: var(--shadow);
-  animation: riseIn 0.45s ease;
+  background: var(--colour-surface);
+  border: 1px solid #e0e0e0;
+  border-radius: 0.45rem;
+  padding: 1.25rem;
+  box-shadow: var(--shadow-soft);
+  animation: riseIn 0.4s ease;
+}
+
+.panel h2 {
+  color: var(--colour-primary);
+  border-left: 4px solid var(--colour-accent);
+  padding-left: 0.7rem;
+  margin-bottom: 0.95rem;
 }
 
 .ticket-form {
   display: grid;
-  gap: 0.5rem;
+  gap: 0.55rem;
+}
+
+.ticket-form label,
+.search-wrap label {
+  font-weight: 600;
 }
 
 .ticket-form input,
 .search-wrap input {
-  border: 1px solid #ced4da;
-  border-radius: 0.5rem;
-  padding: 0.6rem;
   font: inherit;
+  border: 1px solid #c7ced6;
+  border-radius: 6px;
+  padding: 0.62rem 0.72rem;
+  background: #ffffff;
+}
+
+.ticket-form input:focus,
+.search-wrap input:focus {
+  outline: 2px solid rgba(230, 126, 34, 0.25);
+  border-color: var(--colour-accent);
 }
 
 .ticket-form button {
-  margin-top: 0.5rem;
-  border: 0;
-  border-radius: 0.6rem;
-  padding: 0.75rem 0.9rem;
+  margin-top: 0.45rem;
+  border: none;
+  border-radius: 6px;
+  background: var(--colour-accent);
+  color: #ffffff;
   font: inherit;
   font-weight: 700;
-  color: #fff;
-  background: linear-gradient(90deg, var(--accent), #ff9b4a);
+  padding: 0.72rem 0.95rem;
   cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .ticket-form button:hover {
-  filter: brightness(0.95);
+  background: #cf6d17;
+  transform: translateY(-1px);
 }
 
 .confirmation {
-  font-weight: 700;
-  color: var(--ok);
+  margin-top: 0.85rem;
+  padding: 0.7rem 0.8rem;
+  border-radius: 6px;
+  background: var(--colour-ok-bg);
+  color: var(--colour-ok-text);
+  font-weight: 600;
+  line-height: 1.5;
 }
 
 .search-wrap {
   display: grid;
   gap: 0.35rem;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.85rem;
 }
 
 .stats {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 0.8rem;
-  color: var(--muted);
+  gap: 1rem 1.6rem;
+  color: var(--colour-muted);
+  margin-bottom: 0.85rem;
+  font-weight: 600;
 }
 
 .loading {
-  color: var(--muted);
+  color: var(--colour-muted);
   font-style: italic;
+  margin-bottom: 0.55rem;
 }
 
 .error {
-  color: var(--danger);
-  font-weight: 700;
+  background: var(--colour-error-bg);
+  color: var(--colour-error-text);
+  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
+  margin-bottom: 0.7rem;
+  font-weight: 600;
 }
 
 .user-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 0.8rem;
+  gap: 0.95rem;
 }
 
 .user-card {
-  background: var(--surface-2);
-  border: 1px solid rgba(24, 32, 38, 0.12);
-  border-radius: 0.8rem;
-  padding: 0.9rem;
+  background: #ffffff;
+  border: 1px solid #d9dee4;
+  border-left: 4px solid var(--colour-accent);
+  border-radius: 0.35rem;
+  padding: 0.95rem;
   display: grid;
   gap: 0.45rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.user-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lift);
 }
 
 .user-card img {
-  width: 74px;
-  height: 74px;
+  width: 76px;
+  height: 76px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid rgba(15, 118, 110, 0.3);
+  border: 2px solid rgba(230, 126, 34, 0.5);
 }
 
 .user-card p {
   margin: 0;
+  line-height: 1.4;
 }
 
 .posts-list {
   display: grid;
-  gap: 0.7rem;
+  gap: 0.75rem;
 }
 
 .post-item {
-  background: #fff;
-  border-left: 5px solid var(--accent-2);
-  padding: 0.7rem;
-  border-radius: 0.5rem;
+  background: #ffffff;
+  border-left: 4px solid var(--colour-primary);
+  border-radius: 0.35rem;
+  padding: 0.85rem 0.9rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
 }
 
 .post-item h3 {
-  margin: 0 0 0.35rem;
+  color: var(--colour-primary);
+  margin-bottom: 0.4rem;
   text-transform: capitalize;
+  font-size: 1.02rem;
 }
 
 .post-item p {
-  margin: 0;
-  color: #334155;
+  color: #4c5a66;
+  line-height: 1.5;
 }
 
 .about-panel p {
-  line-height: 1.6;
+  line-height: 1.7;
+  margin-bottom: 0.75rem;
 }
 
 .about-image {
-  margin-top: 0.9rem;
   width: 100%;
-  max-height: 420px;
+  max-height: 430px;
   object-fit: cover;
-  border-radius: 0.8rem;
-  border: 1px solid rgba(24, 32, 38, 0.15);
+  border-radius: 0.4rem;
+  border: 1px solid #d9dee4;
+  box-shadow: var(--shadow-soft);
 }
 
 .site-footer {
+  background: var(--colour-footer-bg);
+  color: var(--colour-footer-text);
   text-align: center;
-  padding: 1rem;
-  margin-top: 1.2rem;
-  color: var(--muted);
+  padding: 1.2rem 1rem;
+  margin-top: 1rem;
+  font-size: 0.9rem;
 }
 
 @keyframes riseIn {
   from {
-    transform: translateY(8px);
     opacity: 0;
+    transform: translateY(8px);
   }
   to {
-    transform: translateY(0);
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
+  .site-header {
+    padding: 0.9rem 1rem;
+  }
+
+  .site-header h1 {
+    font-size: 1.35rem;
+  }
+
+  .layout {
+    width: min(96%, 1100px);
+    margin: 1.1rem auto;
+  }
+}
+
+@media (max-width: 480px) {
   .site-header {
     position: static;
   }
 
-  .site-header h1 {
-    font-size: 1.3rem;
+  .nav-list a {
+    padding: 0.42rem 1.05rem;
+    font-size: 0.92rem;
+  }
+
+  .panel {
+    padding: 0.95rem;
+  }
+
+  .stats {
+    gap: 0.6rem 1rem;
+    font-size: 0.95rem;
   }
 }

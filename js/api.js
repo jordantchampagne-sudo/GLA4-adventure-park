@@ -20,7 +20,8 @@ async function getPosts() {
   return fetchJson(API_ENDPOINTS.posts);
 }
 
-async function getRandomUserImage() {
-  const data = await fetchJson(API_ENDPOINTS.randomUser);
-  return data.results[0].picture.large;
+async function getRandomUserImages(count) {
+  const safeCount = Number.isFinite(count) && count > 0 ? Math.floor(count) : 1;
+  const data = await fetchJson(`${API_ENDPOINTS.randomUser}?results=${safeCount}&inc=picture&noinfo`);
+  return data.results.map((result) => result.picture.large);
 }

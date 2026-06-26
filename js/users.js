@@ -8,16 +8,36 @@ const searchInput = document.getElementById("searchInput");
 
 let allUsers = [];
 
-function createUserCard(user) {
-  return `
-    <article class="user-card">
-      <img src="${user.image}" alt="${user.name}" />
-      <p><strong>${user.name}</strong></p>
-      <p>${user.email}</p>
-      <p>City: ${user.city}</p>
-      <p>Company: ${user.company}</p>
-    </article>
-  `;
+function clearElement(element) {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
+}
+
+function createUserCardElement(user) {
+  const card = document.createElement("article");
+  card.className = "user-card";
+
+  const image = document.createElement("img");
+  image.src = user.image;
+  image.alt = user.name;
+
+  const name = document.createElement("p");
+  const strong = document.createElement("strong");
+  strong.textContent = user.name;
+  name.appendChild(strong);
+
+  const email = document.createElement("p");
+  email.textContent = user.email;
+
+  const city = document.createElement("p");
+  city.textContent = `City: ${user.city}`;
+
+  const company = document.createElement("p");
+  company.textContent = `Company: ${user.company}`;
+
+  card.append(image, name, email, city, company);
+  return card;
 }
 
 function renderUsers(users) {
@@ -25,7 +45,22 @@ function renderUsers(users) {
     return;
   }
 
-  userContainer.innerHTML = users.map(createUserCard).join("");
+  clearElement(userContainer);
+
+  if (users.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "loading";
+    empty.textContent = "No users match your search.";
+    userContainer.appendChild(empty);
+    return;
+  }
+
+  const fragment = document.createDocumentFragment();
+  users.forEach((user) => {
+    fragment.appendChild(createUserCardElement(user));
+  });
+
+  userContainer.appendChild(fragment);
 }
 
 function renderPosts(posts) {
@@ -34,16 +69,25 @@ function renderPosts(posts) {
   }
 
   const limitedPosts = posts.slice(0, 8);
-  postsContainer.innerHTML = limitedPosts
-    .map(
-      (post) => `
-        <article class="post-item">
-          <h3>${post.title}</h3>
-          <p>${post.body}</p>
-        </article>
-      `
-    )
-    .join("");
+  clearElement(postsContainer);
+
+  const fragment = document.createDocumentFragment();
+
+  limitedPosts.forEach((post) => {
+    const article = document.createElement("article");
+    article.className = "post-item";
+
+    const title = document.createElement("h3");
+    title.textContent = post.title;
+
+    const body = document.createElement("p");
+    body.textContent = post.body;
+
+    article.append(title, body);
+    fragment.appendChild(article);
+  });
+
+  postsContainer.appendChild(fragment);
 }
 
 function filterUsersByName(searchValue) {
@@ -63,24 +107,20 @@ async function loadData() {
 
     const [users, posts] = await Promise.all([getUsers(), getPosts()]);
 
-    const enhancedUsers = await Promise.all(
-      users.map(async (user) => {
-        let imageUrl = "https://via.placeholder.com/100";
-        try {
-          imageUrl = await getRandomUserImage();
-        } catch (error) {
-          imageUrl = "https://via.placeholder.com/100";
-        }
+    let randomImages = [];
+    try {
+      randomImages = await getRandomUserImages(users.length);
+    } catch (error) {
+      randomImages = [];
+    }
 
-        return {
-          name: user.name,
-          email: user.email,
-          city: user.address.city,
-          company: user.company.name,
-          image: imageUrl
-        };
-      })
-    );
+    const enhancedUsers = users.map((user, index) => ({
+      name: user.name,
+      email: user.email,
+      city: user.address.city,
+      company: user.company.name,
+      image: randomImages[index] || "https://via.placeholder.com/100"
+    }));
 
     allUsers = enhancedUsers;
     renderUsers(allUsers);
